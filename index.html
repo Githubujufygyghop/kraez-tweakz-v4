@@ -1,1 +1,295 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080710">
+<title>KYRO BOOSTER</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080710;color:white;font-family:Arial,sans-serif}
+header{padding:22px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #292238}
+.logo{font-size:25px;font-weight:900;color:#bd75ff}
+.logo span{color:white}
+.status{font-size:11px;color:#adffbd}
+nav{display:flex;gap:8px;padding:12px;overflow-x:auto;background:#100d19}
+nav button{background:#211a30;color:#aaa;border:1px solid #38284e;padding:12px 16px;border-radius:9px;white-space:nowrap}
+nav button.active{background:#873bea;color:white}
+main{padding:18px;max-width:850px;margin:auto}
+.page{display:none}
+.page.active{display:block}
+h1{font-size:29px;margin-bottom:8px}
+.sub{color:#999;font-size:14px;line-height:1.6}
+.card{background:linear-gradient(145deg,#1c1629,#100d18);border:1px solid #352649;border-radius:15px;padding:19px;margin:14px 0}
+.card h3{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat{background:#211a30;padding:17px;border-radius:12px}
+.stat strong{font-size:27px;color:#c58aff;display:block;margin-top:8px}
+button.action{background:#9146ed;color:white;border:0;border-radius:9px;padding:13px 18px;font-weight:bold;width:100%;margin-top:10px}
+button.action:active{transform:scale(.98)}
+button.secondary{background:#292238}
+small{color:#999}
+.setting{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #342a40}
+input[type=checkbox]{width:20px;height:20px;accent-color:#a45aff}
+select{background:#292238;color:white;border:1px solid #57406d;padding:9px;border-radius:8px}
+.bar{height:8px;background:#30263e;border-radius:10px;overflow:hidden;margin-top:12px}
+.fill{height:100%;width:0;background:#b76aff;transition:.2s}
+footer{text-align:center;color:#777;font-size:12px;padding:35px}
+@media(max-width:450px){.grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">KYRO<span> BOOSTER</span></div>
+<div class="status">● SYSTEM ONLINE</div>
+</header>
+
+<nav>
+<button class="active" data-page="home">HOME</button>
+<button data-page="fps">FPS</button>
+<button data-page="network">PING</button>
+<button data-page="games">GAMES</button>
+<button data-page="settings">SETTINGS</button>
+</nav>
+
+<main>
+
+<section id="home" class="page active">
+<h1>Welcome to KYRO.</h1>
+<p class="sub">Your gaming optimization dashboard.</p>
+
+<div class="card">
+<h3>PERFORMANCE DASHBOARD</h3>
+<div class="grid">
+<div class="stat">Browser FPS<strong id="homefps">--</strong><small>Live browser reading</small></div>
+<div class="stat">Connection<strong id="homeping">--</strong><small>Test latency</small></div>
+</div>
+<button class="action" onclick="showPage('fps')">OPEN FPS MONITOR</button>
+<button class="action secondary" onclick="showPage('network')">TEST CONNECTION</button>
+</div>
+
+<div class="card">
+<h3>KYRO PERFORMANCE MODE</h3>
+<p class="sub">Enable the dashboard's lightweight mode.</p>
+<div class="setting">
+<span>Performance Mode</span>
+<input type="checkbox" id="performance" onchange="performanceMode(this)">
+</div>
+<p id="modeText" class="sub">Currently disabled.</p>
+</div>
+
+<div class="card">
+<h3>QUICK STATUS</h3>
+<p class="sub">KYRO tools are ready. Choose a section above to get started.</p>
+</div>
+</section>
+
+<section id="fps" class="page">
+<h1>FPS MONITOR</h1>
+<p class="sub">Measures how smoothly this dashboard is rendering.</p>
+<div class="card">
+<div class="stat">LIVE FPS<strong id="fps">--</strong></div>
+<div class="bar"><div class="fill" id="fpsbar"></div></div>
+<p class="sub" id="fpsstatus">Waiting for measurements...</p>
+<button class="action" onclick="startFPS()">START FPS MONITOR</button>
+<button class="action secondary" onclick="stopFPS()">STOP MONITOR</button>
+</div>
+<div class="card">
+<h3>What does this measure?</h3>
+<p class="sub">This measures browser animation performance. It does not read Fortnite or another game's actual FPS.</p>
+</div>
+</section>
+
+<section id="network" class="page">
+<h1>PING TEST</h1>
+<p class="sub">Measure your connection response time.</p>
+<div class="card">
+<div class="stat">TEST LATENCY<strong id="ping">--</strong><small id="pingstatus">Ready to test</small></div>
+<button class="action" id="pingbutton" onclick="testPing()">START PING TEST</button>
+</div>
+<div class="card">
+<h3>Connection information</h3>
+<p class="sub" id="connection">Checking browser connection information...</p>
+<p class="sub">This test checks a public web endpoint. Your actual game ping may be different.</p>
+</div>
+</section>
+
+<section id="games" class="page">
+<h1>GAME CENTER</h1>
+<p class="sub">Gaming settings and optimization tips.</p>
+<div class="card">
+<h3>FORTNITE</h3>
+<p class="sub">Recommended settings:</p>
+<ul class="sub">
+<li>Use the lowest graphics your device supports.</li>
+<li>Close unnecessary background apps.</li>
+<li>Use a stable Wi-Fi connection.</li>
+<li>Choose the closest available game region.</li>
+</ul>
+<button class="action" onclick="gameTip('Fortnite')">SHOW FORTNITE TIP</button>
+</div>
+<div class="card">
+<h3>OTHER GAMES</h3>
+<p class="sub">COD Mobile • Roblox • Minecraft • Rocket League</p>
+<button class="action secondary" onclick="gameTip('Other games')">SHOW GAMING TIP</button>
+</div>
+<div class="card" id="gametip">
+<p class="sub">Select a game tip above.</p>
+</div>
+</section>
+
+<section id="settings" class="page">
+<h1>SETTINGS</h1>
+<p class="sub">Customize your KYRO dashboard.</p>
+<div class="card">
+<h3>DISPLAY SETTINGS</h3>
+<div class="setting">
+<span>Reduce dashboard animations</span>
+<input type="checkbox" id="reduce" onchange="reduceMotion(this)">
+</div>
+<div class="setting">
+<span>Performance mode</span>
+<input type="checkbox" id="performance2" onchange="syncMode(this)">
+</div>
+<div class="setting">
+<span>Dashboard theme</span>
+<select onchange="changeTheme(this.value)">
+<option value="purple">Purple</option>
+<option value="blue">Blue</option>
+<option value="red">Red</option>
+</select>
+</div>
+</div>
+<div class="card">
+<h3>ABOUT KYRO</h3>
+<p class="sub">KYRO BOOSTER is a browser-based gaming dashboard. It cannot directly modify game files, device settings, or route game traffic.</p>
+</div>
+<button class="action secondary" onclick="resetSettings()">RESET SETTINGS</button>
+</section>
+
+</main>
+
+<footer>KYRO BOOSTER © 2026<br>BUILT FOR GAMERS.</footer>
+
+<script>
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelector('[data-page="'+id+'"]').classList.add('active');
+ window.scrollTo(0,0);
+}
+
+document.querySelectorAll('nav button').forEach(btn=>{
+ btn.addEventListener('click',()=>showPage(btn.dataset.page));
+});
+
+let fpsRunning=false;
+let fpsFrame=null;
+let frames=0;
+let lastTime=0;
+
+function fpsLoop(time){
+ if(!fpsRunning)return;
+ frames++;
+ if(time-lastTime>=1000){
+  let value=Math.round(frames*1000/(time-lastTime));
+  document.getElementById('fps').textContent=value;
+  document.getElementById('homefps').textContent=value;
+  document.getElementById('fpsbar').style.width=Math.min(value/60*100,100)+'%';
+  document.getElementById('fpsstatus').textContent='Browser rendering: '+value+' FPS';
+  frames=0;
+  lastTime=time;
+ }
+ fpsFrame=requestAnimationFrame(fpsLoop);
+}
+
+function startFPS(){
+ if(fpsRunning)return;
+ fpsRunning=true;
+ frames=0;
+ lastTime=performance.now();
+ fpsFrame=requestAnimationFrame(fpsLoop);
+ document.getElementById('fpsstatus').textContent='Monitoring started';
+}
+function stopFPS(){
+ fpsRunning=false;
+ cancelAnimationFrame(fpsFrame);
+ document.getElementById('fpsstatus').textContent='Monitor stopped';
+}
+
+async function testPing(){
+ const button=document.getElementById('pingbutton');
+ const output=document.getElementById('ping');
+ const status=document.getElementById('pingstatus');
+ button.disabled=true;
+ button.textContent='TESTING...';
+ output.textContent='...';
+ let times=[];
+ try{
+  for(let i=0;i<4;i++){
+   const start=performance.now();
+   const response=await fetch('https://www.cloudflare.com/cdn-cgi/trace?t='+Date.now()+i,{cache:'no-store'});
+   if(!response.ok)throw new Error('Connection failed');
+   await response.text();
+   times.push(Math.round(performance.now()-start));
+  }
+  const avg=Math.round(times.reduce((a,b)=>a+b,0)/times.length);
+  output.textContent=avg+' ms';
+  document.getElementById('homeping').textContent=avg+' ms';
+  status.textContent='Average of 4 web connection tests';
+ }catch(e){
+  output.textContent='ERROR';
+  status.textContent='Test failed. Check your internet connection.';
+ }
+ button.disabled=false;
+ button.textContent='TEST AGAIN';
+}
+
+function performanceMode(el){
+ document.getElementById('performance2').checked=el.checked;
+ document.getElementById('modeText').textContent=el.checked?
+ 'Dashboard performance mode enabled.':'Currently disabled.';
+ document.body.style.animation='none';
+}
+function syncMode(el){
+ document.getElementById('performance').checked=el.checked;
+ document.getElementById('modeText').textContent=el.checked?'Dashboard performance mode enabled.':'Currently disabled.';
+}
+function reduceMotion(el){
+ document.body.style.scrollBehavior=el.checked?'auto':'smooth';
+ document.querySelectorAll('.fill').forEach(x=>x.style.transition=el.checked?'none':'.2s');
+}
+function changeTheme(color){
+ const colors={purple:'#9146ed',blue:'#287ce8',red:'#e04466'};
+ document.querySelectorAll('button.action:not(.secondary)').forEach(b=>b.style.background=colors[color]);
+ document.querySelector('.logo').style.color=colors[color];
+}
+function resetSettings(){
+ document.getElementById('performance').checked=false;
+ document.getElementById('performance2').checked=false;
+ document.getElementById('reduce').checked=false;
+ performanceMode(document.getElementById('performance'));
+ reduceMotion(document.getElementById('reduce'));
+ changeTheme('purple');
+ document.querySelector('select').value='purple';
+}
+function gameTip(game){
+ const tips={
+ 'Fortnite':'Use a stable connection, close unnecessary apps and select the nearest matchmaking region.',
+ 'Other games':'Keep your device updated, use stable Wi-Fi and lower graphics if your game struggles.'
+ };
+ document.getElementById('gametip').innerHTML='<h3>'+game+' TIP</h3><p class="sub">'+tips[game]+'</p>';
+}
+
+const conn=navigator.connection;
+document.getElementById('connection').textContent=conn?
+'Connection type: '+(conn.effectiveType||'Unknown')+' | Estimated download: '+(conn.downlink||'Unknown')+' Mbps':
+'Connection details are not available in this browser.';
+
+startFPS();
+</script>
+</body>
+</html>

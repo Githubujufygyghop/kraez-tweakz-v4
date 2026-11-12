@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080710">
+<meta name="google-site-verification" content="1tFD9Zd3eSJbec-kpFUZpRWzvWljFYUJDNxEE1azlYQ">
 <title>KYRO BOOSTER</title>
 <style>
 *{box-sizing:border-box}
@@ -214,6 +215,7 @@ function startFPS(){
  fpsFrame=requestAnimationFrame(fpsLoop);
  document.getElementById('fpsstatus').textContent='Monitoring started';
 }
+
 function stopFPS(){
  fpsRunning=false;
  cancelAnimationFrame(fpsFrame);
@@ -250,23 +252,26 @@ async function testPing(){
 
 function performanceMode(el){
  document.getElementById('performance2').checked=el.checked;
- document.getElementById('modeText').textContent=el.checked?
- 'Dashboard performance mode enabled.':'Currently disabled.';
+ document.getElementById('modeText').textContent=el.checked?'Dashboard performance mode enabled.':'Currently disabled.';
  document.body.style.animation='none';
 }
+
 function syncMode(el){
  document.getElementById('performance').checked=el.checked;
  document.getElementById('modeText').textContent=el.checked?'Dashboard performance mode enabled.':'Currently disabled.';
 }
+
 function reduceMotion(el){
  document.body.style.scrollBehavior=el.checked?'auto':'smooth';
  document.querySelectorAll('.fill').forEach(x=>x.style.transition=el.checked?'none':'.2s');
 }
+
 function changeTheme(color){
  const colors={purple:'#9146ed',blue:'#287ce8',red:'#e04466'};
  document.querySelectorAll('button.action:not(.secondary)').forEach(b=>b.style.background=colors[color]);
  document.querySelector('.logo').style.color=colors[color];
 }
+
 function resetSettings(){
  document.getElementById('performance').checked=false;
  document.getElementById('performance2').checked=false;
@@ -276,6 +281,7 @@ function resetSettings(){
  changeTheme('purple');
  document.querySelector('select').value='purple';
 }
+
 function gameTip(game){
  const tips={
  'Fortnite':'Use a stable connection, close unnecessary apps and select the nearest matchmaking region.',
